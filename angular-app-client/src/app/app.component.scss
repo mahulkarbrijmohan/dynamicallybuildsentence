@@ -1,0 +1,49 @@
+.addBtn{
+    background-color: blue;  
+    width: 150px ;
+    height: 55px;
+    text-align: center;
+    padding: 10px;
+    color: white;
+    font-size: 20px; 
+    border: none ;
+}
+.clearBtn{
+    background-color: white;  
+    width: 150px ;
+    height: 55px;
+    text-align: center;
+    padding: 10px;
+    color: blue;
+    font-size: 20px; 
+    border: none ; 
+}
+
+.mat-paginator {
+    display: block;
+    background: aliceblue;
+}
+.mat-card{
+    border-radius: 8px;
+    border: 1px solid blue;
+    margin: 20px; 
+    background: aliceblue; 
+}
+.titleHeader{
+    text-align: center;
+    padding: 5px;
+    font-weight: 500; 
+}
+.submitPage{
+    margin-bottom: 20px;
+    text-align: end;
+     padding: 15px; 
+}
+.header{
+    background: blue;
+    padding: 10px;
+    color: white;
+}
+body{
+   background: #00000029;
+}

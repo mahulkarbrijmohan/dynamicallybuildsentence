@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  
+  <h1 class="titleHeader">Dynamic Sentence Creator</h1>
+
+    <div class="mat-card" *ngIf="!successFlag" >
+      <div class="header">
+        <div class="row">
+          <div class="col-lg-10">
+            <p>Create your sentence form below inputs and submit.</p>
+          </div>
+          <div class="col-lg-2">
+            <p>Sunday Apr, 24 2022</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="conatiner" style="padding: 20px;">
+        <form [formGroup]="sentenceBuildForm" >
+          <div class="row">
+            <div class="col-lg-4 col-md-3 col-sm-12 col-12">
+              <mat-form-field class="example-form-field" appearance="outline">
+                <mat-label>Word Types</mat-label>
+                <mat-select
+                  name="wordTypes"
+                  aria-label="wordTypes"
+                  class="field"
+                  formControlName="wordTypes"
+                >
+                  <mat-option [value]="null" >Select</mat-option>
+                  <mat-option
+                 *ngFor="let words of wordTypesList"
+                 [value]="words" >
+                    {{words}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div class="col-lg-4 col-md-3 col-sm-12 col-12">
+              <mat-form-field class="example-form-field" appearance="outline">
+                <mat-label>Word Values</mat-label>
+                <mat-select
+                  name="wordValues"
+                  aria-label="wordValues"
+                  class="field"
+                  formControlName="wordValues"
+                >
+                  <mat-option [value]="null">Select</mat-option>
+                  <mat-option 
+                  *ngFor="let words of wordValuesList"
+                  [value]="words"  >
+                    {{words}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div class="col-lg-4 col-md-3 col-sm-12 col-12">
+              <button class="addBtn" (click)="addSentence()">+ Add</button>
+            </div>
+          </div>
+        </form>
+
+      </div>
+
+      <div class="horizontalSeparator" style="margin-bottom: 20px;">
+        <div class="col">
+          <table class="table bg-white rounded shadow-sm  table-hover">
+              <thead>
+                  <tr>
+                      <th scope="col" width="50">#</th>
+                      <th scope="col">Senteneces</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr *ngFor="let sentence of displaySentenceList; let i = index">
+                      <td>{{i}}</td>
+                      <td>{{sentence}}</td>
+                  </tr>
+              </tbody>
+          </table>
+      </div>
+      </div>
+
+      <!-- <div class="horizontalSeparator mt-2" *ngIf="null !=displaySentenceList">
+        <div class="paginator"  *ngIf="paginatorData != null">
+          <mat-paginator
+            [length]="paginatorData.totalNumberOfRecords"
+            [pageSize]="paginatorData.recordsPerPage"
+            (page)="pageEvent = getPaginatorData($event.pageIndex)"
+          >
+          </mat-paginator>
+        </div>
+      </div> -->
+
+      <div class="horizontalSeparator submitPage">
+        <button class="clearBtn" (click)="clear()">Clear</button>
+        &nbsp;&nbsp;
+        <button class="addBtn" (click)="submit()">Submit</button>
+      </div>
+    </div> 
+
+    <div class="mat-card" *ngIf="successFlag">
+      <div class="header">
+        <div class="row">
+          <div class="col-lg-10">
+            <p>Dynamic Sentence Creator Submission</p>
+          </div>
+          <div class="col-lg-2">
+            <p>Sunday Apr, 24 2022</p>
+          </div>
+        </div>
+      </div>
+      <div class="text-center" style="margin-bottom: 10px;">
+        <div class="row">
+          <div class="col-lg-12 col-md-3 col-sm-6 col-12 mt-4">
+            <span>
+              <img src="./assets/images/Successful_submit.svg" /><br /><br />
+              <span style="font-size: 18px; font-weight: bold; color: green"
+                >Dynamic Sentence has been Created successfully</span
+              > 
+            </span>
+            <br />
+            <br />
+            <p  style="font-size: 18px; font-weight: bold; color: green" >Waiting for Quality Checks</p>
+          </div>
+          <div class="col-lg-12 col-md-12 col-sm-6 col-12 text-end">
+            <button
+              class="addBtn"
+              type="submit"
+              (click)="gotoHome()"
+              mat-button
+            >
+             submit
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+   
+  
+</body>
+</html>
+
