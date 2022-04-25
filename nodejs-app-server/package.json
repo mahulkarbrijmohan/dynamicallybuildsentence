@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "cross-env ENVIRONMENT=development nodemon index.js",
+    "start": "cross-env ENVIRONMENT=production nodemon index.js",
     "start:dev": "nodemon index.js",
     "build": "webpack",
     "prod": "node dist/api.bundle.js",
