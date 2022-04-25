@@ -1,18 +1,39 @@
 const mysql = require("mysql");
-
-const express = require("express");
-var app = express();
 const bodyparser = require("body-parser");
+const logger = require('./logger/logger');
+const express = require("express");
+const apiRouter = express();
+apiRouter.use(bodyparser.json());
+const environment = process.env.ENVIRONMENT;
 
-app.use(bodyparser.json());
+
+let envPath = './environments/.env-dev';
+
+
+if (environment === 'test') {
+  envPath = './environments/.env-test';
+} else if (environment === 'production') {
+  envPath = './environments/.env-prod';
+}else if (environment === 'development') {
+  envPath = './environments/.env-dev';
+}
+
+
+require('dotenv').config({ path: envPath });
+
+
+const port = process.env.PORT || 3000;
+
+
 
 var mysqlConnection = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "rootroot",
-  database: "employeeDB",
+  host: process.env.DB_CONNECTION_STR,
+  user: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
   multipleStatements: true,
 });
+
 mysqlConnection.connect((err) => {
   if (!err) {
     console.log("DB connection success");
@@ -21,63 +42,27 @@ mysqlConnection.connect((err) => {
   }
 });
 
-app.listen(3000, () =>
-  console.log("Express server is runnig at port no : 3000")
-);
 
-//Get all employees
-app.get("/employees", (req, res) => {
-  mysqlConnection.query("SELECT * FROM emp", (err, rows, fields) => {
-    if (!err) res.send(rows);
-    else console.log(err);
-  });
-});
 
-//Get an employees
-app.get("/employees/:id", (req, res) => {
-  mysqlConnection.query(
-    "SELECT * FROM emp WHERE id = ?",
-    [req.params.id],
-    (err, rows, fields) => {
-      if (!err) res.send(rows);
-      else console.log(err);
-    }
-  );
-});
-//Delete an employees
-app.delete("/employees/:id", (req, res) => {
-  mysqlConnection.query(
-    "DELETE FROM emp WHERE id = ?",
-    [req.params.id],
-    (err, rows, fields) => {
-      if (!err) res.send("Deleted successfully.");
-      else console.log(err);
-    }
-  );
+// NPM
+
+apiRouter.get("/", function(req, res) {
+  logger.info("default route");
+  res.send("App works!!!!!");
+})
+
+apiRouter.use("/api", require("./routes/routes"));
+
+apiRouter.listen(port, (err) => {
+  if (err) {
+    logger.error('Error::', err);
+  }
+  logger.info(`running server on from port:::::::${port}`);
 });
 
-//Insert an employees
-app.post("/employee", (req, res) => {
-  let emp = req.body;
-  console.log(emp);
-  var sql = "SET @id = ?;SET @name = ?; \
-  CALL EMPADDANDEDIT(@id,@name);";
-  mysqlConnection.query(sql, [emp.id, emp.name], (err, rows, fields) => {
-    if (!err)
-      rows.forEach((element) => {
-        if (element.constructor == Array)
-          res.send("Inserted employee id : " + element[0].id);
-      });
-    else console.log(err);
-  });
-});
-//Update an employees
-app.put("/employees", (req, res) => {
-  let emp = req.body;
-  var sql = "SET @id = ?;SET @name = ?; \
-    CALL EMPADDANDEDIT(@id,@name);";
-  mysqlConnection.query(sql, [emp.id, emp.name], (err, rows, fields) => {
-    if (!err) res.send("Updated successfully");
-    else console.log(err);
-  });
-});
+apiRouter.get("*", function(req, res) {
+  logger.info("wordtypes route");
+  res.send("App works!!!!!");
+})
+
+

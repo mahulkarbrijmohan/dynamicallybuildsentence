@@ -1,16 +1,30 @@
 {
-  "name": "node",
+  "name": "user_api",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "cross-env ENVIRONMENT=development nodemon index.js",
+    "start:dev": "nodemon index.js",
+    "build": "webpack",
+    "prod": "node dist/api.bundle.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.20.0",
+    "config": "^3.3.7",
+    "dotenv": "^16.0.0",
     "express": "^4.17.3",
     "mysql": "^2.18.1"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "eslint": "^8.14.0",
+    "eslint-plugin-react": "^7.29.4",
+    "nodemon": "^2.0.15",
+    "webpack": "^5.72.0",
+    "webpack-cli": "^4.9.2"
   }
 }
